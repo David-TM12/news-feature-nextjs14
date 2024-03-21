@@ -1,4 +1,5 @@
 'use client'
+
 import { CustomerField } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
@@ -14,7 +15,7 @@ import { useFormState } from 'react-dom';
 export default function Form({ customers }: { customers: CustomerField[] }) {
   const initialState = {
     message: null,
-    error: []
+    errors: {}
   }
   const [state, dispatch] = useFormState(createInvoice, initialState);
   return (
@@ -132,15 +133,14 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                 </p>
               ))}
           </div>
-
-          <div>
-            {state.errors && (
-              <p className="mt-2 text-sm text-red-500">
-                {state.message}
-              </p>
-            )}
-          </div>
         </fieldset>
+        <div aria-live="polite" aria-atomic="true">
+          {state.message ? (
+            <p className="mt-2 text-sm text-red-500">
+              {state.message}
+            </p>
+          ): null}
+        </div>
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
